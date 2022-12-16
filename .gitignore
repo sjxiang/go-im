@@ -1,0 +1,12 @@
+.git/
+.vscode/
+
+go.sum
+
+
+
+# 配置文件
+.yaml
+.env
+
+
