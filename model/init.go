@@ -1,19 +1,19 @@
-package test
+package model
 
 import (
+	"context"
+	"log"
 	"time"
 
-	"github.com/sjxiang/go-im/model"
-	
-	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
-	"golang.org/x/net/context"
-
-	"testing"
 )
 
-func TestFindOne(t *testing.T) {
+
+var MongoClient = InitMongoClient() 
+
+func InitMongoClient() *mongo.Database {
+	
 	ctx, cancel := context.WithTimeout(context.Background(), 10 * time.Second)
 	defer cancel()
 
@@ -21,17 +21,13 @@ func TestFindOne(t *testing.T) {
 		Username: "admin",
 		Password: "admin",
 	}).ApplyURI("mongodb://172.17.0.2:27017"))
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	db := client.Database("im")
 	
-	ub := new(model.UserBasic)
-	err = db.Collection("user_basic").FindOne(context.Background(), bson.D{}).Decode(ub)
 	if err != nil {
-		t.Fatal(err)
+		log.Println("连接 Mongo 错误"+ err.Error())
+		return nil
 	}
-
-	t.Logf("=> %+v\n", ub)
+	
+	db := client.Database("im")	
+	
+	return db
 }
