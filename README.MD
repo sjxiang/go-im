@@ -20,3 +20,27 @@ docker stop  some-mongo
 
 docker inspect some-mongo | grep IPAddress
 ```
+
+
+```
+IM 
+
+用户模块
+    用户登录
+    发送验证码
+    用户注册
+    用户详情
+
+
+通讯模块
+    使用 HTTP 搭建 websocket 服务
+    使用 Gin 搭建 websocket 服务
+    一对一通讯
+    多对多通讯
+    消息列表
+    聊天记录列表
+    添加好友
+    删除好友
+
+
+```
