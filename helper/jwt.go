@@ -1,10 +1,11 @@
 package helper
 
 import (
-	"time"
 	"errors"
-	
+	"time"
+
 	"github.com/dgrijalva/jwt-go"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 
@@ -15,8 +16,8 @@ var JWTKey = "im"
 
 // custom 载荷
 type UserClaims struct {
-	Identity string `json:"identity"`
-	Email    string `json:"email"`
+	Identity primitive.ObjectID `json:"identity"`
+	Email    string             `json:"email"`
 
 	jwt.StandardClaims
 }
@@ -24,8 +25,14 @@ type UserClaims struct {
 
 // 生成 JWT
 func GenerateToken(identity, email string) (string, error) {
+
+	objectID, err := primitive.ObjectIDFromHex(identity)  // ObjectID('639cb1802102c22825c3910a')
+	if err != nil {
+		return "", err
+	}
+
 	uc := UserClaims {
-		Identity: identity,
+		Identity: objectID,
 		Email: email,
 
 		StandardClaims: jwt.StandardClaims{
@@ -54,9 +61,11 @@ func AnalyzeToken(token string) (*UserClaims, error) {
 		return nil, err
 	}
 
-	if claims.Valid {
-		return uc, errors.New("token is invalid")
+	if !claims.Valid {
+		return nil, errors.New("token is invalid")
 	}
 
 	return uc, nil
 }
+
+

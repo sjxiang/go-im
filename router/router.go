@@ -15,7 +15,7 @@ func Setup() *gin.Engine {
 	registerApiRoutes(r)
 
 	// 注册全局中间件
-	registerMiddleWare(r)
+	registerGlobalMiddleWare(r)
 
 	// 配置 404 路由
 	setupNoFoundHandler(r)
@@ -25,7 +25,7 @@ func Setup() *gin.Engine {
 }
 
 
-func registerMiddleWare(router *gin.Engine) {
+func registerGlobalMiddleWare(router *gin.Engine) {
 	
 }
 
