@@ -24,9 +24,11 @@ func (UserBasic) CollectionName() string {
 	return "user_basic"
 }
 
+
 func GetUserBasicByUsernamePassword(account, password string) (*UserBasic, error) {
 	ub := new(UserBasic)
 
+	// 文档记录 => 结构体
 	err := MongoClient.Collection(UserBasic{}.CollectionName()).
 		FindOne(context.Background(), bson.D{{"account", account}, {"password", password}}).
 		Decode(ub)
@@ -41,4 +43,10 @@ func GetUserBasicByIdentity(identity primitive.ObjectID) (*UserBasic, error) {
 		FindOne(context.Background(), bson.D{{"_id", identity}}).
 		Decode(ub)
 	return ub, err
+}
+
+
+func GetUserBasicByEmail(email string) (int64, error) {
+	return MongoClient.Collection(UserBasic{}.CollectionName()).
+		CountDocuments(context.Background(), bson.D{{ "email", email }})
 }
