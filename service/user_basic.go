@@ -112,10 +112,10 @@ func SendVerifyCode(ctx *gin.Context) {
 	// 获取验证码
 	verifyCode := helper.GenerateRandomNum()
 
-	// TODO：redis 保留一份验证码
+	// TODO：redis 保留验证码
 	
 
-	// 邮箱发送验证码
+	// 发送验证码
 	err = helper.NewEmail().Send(email, verifyCode)
 	if err != nil {
 		log.Printf("[Error]: %v\n", err)

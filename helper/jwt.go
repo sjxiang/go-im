@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
-	"go.mongodb.org/mongo-driver/bson/primitive"
+	// "go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 
@@ -16,8 +16,8 @@ var JWTKey = "im"
 
 // custom 载荷
 type UserClaims struct {
-	Identity primitive.ObjectID `json:"identity"`
-	Email    string             `json:"email"`
+	Identity string    `json:"identity"`  // primitive.ObjectID  
+	Email    string    `json:"email"`
 
 	jwt.StandardClaims
 }
@@ -26,13 +26,13 @@ type UserClaims struct {
 // 生成 JWT
 func GenerateToken(identity, email string) (string, error) {
 
-	objectID, err := primitive.ObjectIDFromHex(identity)  // ObjectID('639cb1802102c22825c3910a')
-	if err != nil {
-		return "", err
-	}
+	// objectID, err := primitive.ObjectIDFromHex(identity)  // ObjectID('639cb1802102c22825c3910a')
+	// if err != nil {
+	// 	return "", err
+	// }
 
 	uc := UserClaims {
-		Identity: objectID,
+		Identity: identity,
 		Email: email,
 
 		StandardClaims: jwt.StandardClaims{

@@ -33,8 +33,9 @@ IM
 
 
 通讯模块
-    使用 HTTP 搭建 websocket 服务
-    使用 Gin 搭建 websocket 服务
+
+    发送、接受消息
+
     一对一通讯
     多对多通讯
     消息列表
@@ -42,5 +43,11 @@ IM
     添加好友
     删除好友
 
+
+```
+
+```text
+
+gorilla/websocket 于 2022-12-10 不再维护
 
 ```
