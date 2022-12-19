@@ -60,11 +60,11 @@ func UserQuery(ctx *gin.Context) {
 		Sex: ub.Sex,
 		Email: ub.Email,
 		Avatar: ub.Avatar,
-		IsFriend: true,
+		IsFriend: false,
 	}
 
-	if !ok {
-		data.IsFriend = false
+	if ok {
+		data.IsFriend = true
 	}
 
 	ctx.JSON(http.StatusOK, gin.H{

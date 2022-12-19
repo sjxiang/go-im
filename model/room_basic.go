@@ -2,6 +2,8 @@ package model
 
 import (
 	"context"
+
+	"go.mongodb.org/mongo-driver/bson"
 )
 
 type RoomBasic struct {
@@ -23,5 +25,12 @@ func (RoomBasic) CollectionName() string {
 
 func InsertOneRoomBasic(rb *RoomBasic) error {
 	_, err := MongoClient.Collection(RoomBasic{}.CollectionName()).InsertOne(context.Background(), rb)
+	return err
+}
+
+func DeleteRoomBasic(roomIdentity string) error {
+	_, err := MongoClient.Collection(RoomBasic{}.CollectionName()).
+		DeleteOne(context.Background(), bson.M{"identity": roomIdentity})
+	
 	return err
 }
