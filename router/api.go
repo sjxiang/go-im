@@ -27,12 +27,11 @@ func registerApiRoutes(router *gin.Engine) {
 	// 用户详情
 	v1.GET("/user/detail", service.UserDetail)
 
-	// 创建聊天室
-	v1.POST("/room/create", service.CreateRoom)
-
 	// 发送、接受消息
 	v1.GET("/websocket/message", service.WebsocketMessage)
 
+	// 聊天记录列表
+	v1.GET("/chat/message/list", service.ChatMessageList)
 
 
 	v2 := router.Group("/v2", middleware.AuthCheck())

@@ -3,6 +3,8 @@ package model
 import (
 	"context"
 
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo/options"
 	// "go.mongodb.org/mongo-driver/bson"
 )
 
@@ -29,13 +31,29 @@ func InsertOneMessageBasic(mb *MessageBasic) error {
 	return err
 }
 
-// func GetUserBasicByUsernamePassword(account, password string) (*UserBasic, error) {
-// 	ub := new(UserBasic)
 
-// 	// 文档记录 => 结构体
-// 	err := MongoClient.Collection(UserBasic{}.CollectionName()).
-// 		FindOne(context.Background(), bson.D{{"account", account}, {"password", password}}).
-// 		Decode(ub)
-// 	return ub, err
-// }
+func GetMessageListByRoomIdentity(roomIdentity string, limit, skip int64) ([]*MessageBasic, error) {
+	data := make([]*MessageBasic, 0)
+	cursor, err := MongoClient.Collection(MessageBasic{}.CollectionName()).
+		Find(context.Background(), bson.M{"room_identity": roomIdentity }, &options.FindOptions{
+			Limit: &limit,
+			Skip: &skip,
+			Sort: bson.D{{"created_at", -1 }},  // 降序
+		})
+
+	if err != nil {
+		return nil, err
+	}
+
+	for cursor.Next(context.Background()) {
+		mb := new(MessageBasic)
+		err = cursor.Decode(mb)
+		if err != nil {
+			return nil, err
+		}
+		data = append(data, mb)		
+	}
+
+	return data, nil
+}
 
