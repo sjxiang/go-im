@@ -21,7 +21,7 @@ func RandStringRunes(length int) string {
 }
 
 
-func GenerateRandomNum() string {
+func GetRandomNum() string {
 	length := 6
 	return RandStringRunes(length)
 }

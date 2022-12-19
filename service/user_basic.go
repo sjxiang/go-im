@@ -75,60 +75,60 @@ func UserDetail(ctx *gin.Context) {
 }
 
 
-// 发送验证码
-func SendVerifyCode(ctx *gin.Context) {
-	email := ctx.PostForm("email")
+// // 发送验证码
+// func SendVerifyCode(ctx *gin.Context) {
+// 	email := ctx.PostForm("email")
 
-	if email == "" {
-		ctx.JSON(http.StatusBadRequest, gin.H{
-			"Code": -1,
-			"Msg": "邮箱不能为空",
-		})
+// 	if email == "" {
+// 		ctx.JSON(http.StatusBadRequest, gin.H{
+// 			"Code": -1,
+// 			"Msg": "邮箱不能为空",
+// 		})
 
-		return
-	}
+// 		return
+// 	}
 
 	
-	cnt, err := model.GetUserBasicByEmail(email)
-	if err != nil {
-		log.Printf("[DB error]: %v\n", err)
-		ctx.JSON(http.StatusBadRequest, gin.H{
-			"Code": -1,
-			"Msg": "数据库查询异常",
-		})
+// 	cnt, err := model.GetUserBasicByEmail(email)
+// 	if err != nil {
+// 		log.Printf("[DB error]: %v\n", err)
+// 		ctx.JSON(http.StatusBadRequest, gin.H{
+// 			"Code": -1,
+// 			"Msg": "数据库查询异常",
+// 		})
 
-		return
-	}
+// 		return
+// 	}
 
-	if cnt > 0 {
-		ctx.JSON(http.StatusBadRequest, gin.H{
-			"Code": -1,
-			"Msg": "当前邮箱已经被注册",
-		})
+// 	if cnt > 0 {
+// 		ctx.JSON(http.StatusBadRequest, gin.H{
+// 			"Code": -1,
+// 			"Msg": "当前邮箱已经被注册",
+// 		})
 
-		return
-	}
+// 		return
+// 	}
 
-	// 获取验证码
-	verifyCode := helper.GenerateRandomNum()
+// 	// 获取验证码
+// 	verifyCode := helper.GenerateRandomNum()
 
-	// TODO：redis 保留验证码
+// 	// TODO：redis 保留验证码
 	
 
-	// 发送验证码
-	err = helper.NewEmail().Send(email, verifyCode)
-	if err != nil {
-		log.Printf("[Error]: %v\n", err)
-		ctx.JSON(http.StatusBadRequest, gin.H{
-			"Code": -1,
-			"Msg": "系统错误" + err.Error(),
-		})
+// 	// 发送验证码
+// 	err = helper.NewEmail().Send(email, verifyCode)
+// 	if err != nil {
+// 		log.Printf("[Error]: %v\n", err)
+// 		ctx.JSON(http.StatusBadRequest, gin.H{
+// 			"Code": -1,
+// 			"Msg": "系统错误" + err.Error(),
+// 		})
 
-		return
-	}
+// 		return
+// 	}
 
-	ctx.JSON(http.StatusOK, gin.H{
-		"Code": 200,
-		"Msg": "验证码发送成功",
-	})
-}
+// 	ctx.JSON(http.StatusOK, gin.H{
+// 		"Code": 200,
+// 		"Msg": "验证码发送成功",
+// 	})
+// }

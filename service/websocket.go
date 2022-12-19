@@ -7,6 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
 	"github.com/sjxiang/go-im/helper"
+	"github.com/sjxiang/go-im/model"
 )
 
 type Message struct {
@@ -34,11 +35,24 @@ func WebsocketMessage(ctx *gin.Context) {
 
 	for {
 		ms := new(Message)
+		
 		err := conn.ReadJSON(ms)
 		if err != nil {
 			log.Printf("[Websocket Read Message Error]: %v\n", err)
 			return
 		}
+		
+		// TODO: 判断用户是否属于消息体的房间，校验
+		_, err = model.GetUserRoomByUserIdentityRoomIdentity(uc.Identity, ms.RoomIdentity)
+		if err != nil {
+			log.Printf("[Websocket UserIdentity: %v RoomIdentity: %v Not Exists]\n", uc.Identity, ms.RoomIdentity)
+			return
+		}
+
+		// TODO: 保存一份消息
+
+		
+		// TODO: 获取在特定房间的在线用户，消息推送
 
 		for _, cc := range wc {
 			err := cc.WriteMessage(websocket.TextMessage, []byte(ms.Data))

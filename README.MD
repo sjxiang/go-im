@@ -26,9 +26,9 @@ docker inspect some-mongo | grep IPAddress
 IM 
 
 用户模块
-    用户登录
     发送验证码
     用户注册
+    用户登录
     用户详情
 
 
