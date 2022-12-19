@@ -21,14 +21,20 @@ func registerApiRoutes(router *gin.Engine) {
 
 
 	// 路由分组
-	auth := router.Group("/u")
-	auth.Use(middleware.AuthCheck())
+	v1 := router.Group("/v1")
+	v1.Use(middleware.AuthCheck())
 
 	// 用户详情
-	auth.GET("/user/detail", service.UserDetail)
+	v1.GET("/user/detail", service.UserDetail)
+
+	// 创建聊天室
+	v1.POST("/room/create", service.CreateRoom)
 
 	// 发送、接受消息
-	auth.GET("/websocket/message", service.WebsocketMessage)
+	v1.GET("/websocket/message", service.WebsocketMessage)
 
 
+
+	v2 := router.Group("/v2", middleware.AuthCheck())
+	v2.GET("chat", service.WebsocketMessagePlus)
 }

@@ -72,7 +72,7 @@ func Register(ctx *gin.Context) {
 		Identity: helper.GetUUID(),
 		Account: account,
 		Email: email,
-		Password: password,
+		Password: helper.GetMd5(password),
 		CreatedAt: time.Now().Unix(),
 		UpdatedAt: time.Now().Unix(),
 	}

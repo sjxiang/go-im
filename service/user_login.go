@@ -4,6 +4,7 @@ package service
 
 import (
 	"net/http"
+	"log"
 
 	"github.com/gin-gonic/gin"
 	"github.com/sjxiang/go-im/helper"
@@ -27,6 +28,7 @@ func Login(ctx *gin.Context) {
 
 	ub, err := model.GetUserBasicByUsernamePassword(account, helper.GetMd5(password))
 	if err != nil {
+		log.Printf("[DB Error]: %v\n", err)
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"Code": -1,
 			"Msg": "用户名或密码错误"+err.Error(),

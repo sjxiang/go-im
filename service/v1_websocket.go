@@ -3,6 +3,7 @@ package service
 import (
 	"log"
 	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
@@ -50,16 +51,38 @@ func WebsocketMessage(ctx *gin.Context) {
 		}
 
 		// TODO: 保存一份消息
+		mb := &model.MessageBasic{
+			UserIdentity: uc.Identity,
+			RoomIdentity: ms.RoomIdentity,
+			Data: ms.Data,
+			CreatedAt: time.Now().Unix(),
+			UpdatedAt: time.Now().Unix(),
+		}
 
+		err = model.InsertOneMessageBasic(mb)
+		if err != nil {
+			log.Printf("[DB error]: %v\n", err)
+			return
+		}
 		
 		// TODO: 获取在特定房间的在线用户，消息推送
+		userRooms, err := model.GetUserRoomByRoomIdentity(ms.RoomIdentity)
+		if err != nil {
+			log.Printf("[DB error]: %v\n", err)
+			return
+		}
 
-		for _, cc := range wc {
-			err := cc.WriteMessage(websocket.TextMessage, []byte(ms.Data))
-			if err != nil {
-				log.Printf("[Websocket Read Message Error]: %v\n", err)
-				return
+		for _, room := range userRooms {
+
+			// map 中，在线用户 => conn
+			if cc, ok := wc[room.UserIdentity]; ok {
+				err := cc.WriteMessage(websocket.TextMessage, []byte(ms.Data))
+				if err != nil {
+					log.Printf("[Websocket Read Message Error]: %v\n", err)
+					return
+				}
 			}
 		}
+
 	}
 }
