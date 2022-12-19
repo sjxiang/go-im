@@ -32,7 +32,7 @@ func ChatMessageList(ctx *gin.Context) {
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"Code": -1,
-			"Msg": "非法访问",
+			"Msg": "用户非法访问",  // 万一是查询失败呢？
 		})
 		return
 	}
@@ -66,7 +66,7 @@ func ChatMessageList(ctx *gin.Context) {
 		log.Printf("[DB Error]: %v\n", err)
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"Code": -1,
-			"Msg": "系统异常" + err.Error(),
+			"Msg": "数据查询异常" + err.Error(),
 		})
 		return
 	}

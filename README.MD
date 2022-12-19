@@ -38,7 +38,6 @@ IM
         一对一通讯
         多对多通讯
         
-    消息列表
     聊天记录列表
     添加好友
     删除好友
@@ -49,5 +48,7 @@ IM
 ```text
 
 gorilla/websocket 于 2022-12-10 不再维护
+
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZGVudGl0eSI6IjdmZDVlY2QzLWQwMjQtNGZiMS1iODY1LWYwNzRhZjc0NjY4OSIsImVtYWlsIjoiMTUzNTQ4NDk0M0BxcS5jb20iLCJleHAiOjE2NzQwMzM3NDl9.VwuzvgKU__81YTL2ebAtl9C6b2tUTninVgvXyI7o4-s
 
 ```

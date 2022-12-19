@@ -31,7 +31,7 @@ func Login(ctx *gin.Context) {
 		log.Printf("[DB Error]: %v\n", err)
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"Code": -1,
-			"Msg": "用户名或密码错误"+err.Error(),
+			"Msg": "数据查询异常" + err.Error(),  // 也有可能账号、密码输入错误
 		})
 		return
 	}

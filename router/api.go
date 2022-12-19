@@ -33,7 +33,14 @@ func registerApiRoutes(router *gin.Engine) {
 	// 聊天记录列表
 	v1.GET("/chat/message/list", service.ChatMessageList)
 
+	// 查询聊天室用户资料
+	v1.GET("/chat/query/user", service.UserQuery)
 
+	// 添加好友
+	v1.POST("/chat/friend/add", service.FriendAdd)
+
+	// 删除好友
+	
 	v2 := router.Group("/v2", middleware.AuthCheck())
 	v2.GET("chat", service.WebsocketMessagePlus)
 }

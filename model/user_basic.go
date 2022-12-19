@@ -60,3 +60,12 @@ func InsertOneUserBasic(ub *UserBasic) error {
 	_, err := MongoClient.Collection(UserBasic{}.CollectionName()).InsertOne(context.Background(), ub)
 	return err
 }
+
+func GetUserBasicByAccount(account string) (*UserBasic, error) {  
+	ub := new(UserBasic)
+
+	err := MongoClient.Collection(UserBasic{}.CollectionName()).
+		FindOne(context.Background(), bson.D{{"account", account}}).  // primitive.ObjectID
+		Decode(ub)
+	return ub, err
+}

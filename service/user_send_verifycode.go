@@ -53,7 +53,7 @@ func SendVerifyCode(ctx *gin.Context) {
 		log.Printf("[Cache Error]: %v\n", err)
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"Code": -1,
-			"Msg": "系统错误" + err.Error(),
+			"Msg": "缓存 写入异常" + err.Error(),
 		})
 
 		return

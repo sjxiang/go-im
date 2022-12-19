@@ -31,7 +31,7 @@ func Register(ctx *gin.Context) {
 		log.Printf("[cache Error]: %v\n", err)
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"Code": -1,
-			"Msg": "Redis 读取错误" + err.Error(),
+			"Msg": "缓存 读取错误" + err.Error(),
 		})
 
 		return
@@ -52,7 +52,7 @@ func Register(ctx *gin.Context) {
 		log.Printf("[DB Error]: %v\n", err)
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"Code": -1,
-			"Msg": "系统错误" + err.Error(),
+			"Msg": "数据查询异常" + err.Error(),
 		})
 
 		return
@@ -82,7 +82,7 @@ func Register(ctx *gin.Context) {
 		log.Printf("[DB Error]: %v\n", err)
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"Code": -1,
-			"Msg": "系统错误" + err.Error(),
+			"Msg": "数据插入异常" + err.Error(),
 		})
 
 		return
