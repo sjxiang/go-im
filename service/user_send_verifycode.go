@@ -1,15 +1,15 @@
 package service
 
-
 import (
+	"context"
 	"log"
 	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/sjxiang/go-im/helper"
 	"github.com/sjxiang/go-im/model"
 )
-
 
 // 发送验证码
 func SendVerifyCode(ctx *gin.Context) {
@@ -48,13 +48,21 @@ func SendVerifyCode(ctx *gin.Context) {
 	// 获取验证码
 	verifyCode := helper.GetRandomNum()
 
-	// TODO：redis 保留验证码
-	
+	// 保留验证码
+	if err = model.RDB.Set(context.Background(), "Token_" + email, verifyCode, time.Hour * time.Duration(1)).Err(); err != nil {
+		log.Printf("[Cache Error]: %v\n", err)
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"Code": -1,
+			"Msg": "系统错误" + err.Error(),
+		})
+
+		return
+	}
 
 	// 发送验证码
 	err = helper.NewEmail().Send(email, verifyCode)
 	if err != nil {
-		log.Printf("[Error]: %v\n", err)
+		log.Printf("[System Error]: %v\n", err)
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"Code": -1,
 			"Msg": "系统错误" + err.Error(),
